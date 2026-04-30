@@ -2,6 +2,8 @@
 
 Stabilize your flow state with a focus synth backed by cutting edge [cognitive research](#research).
 
+Tune your frequencies in the app and overlay your own study music in another tab or with the upload button for maximum effect. 
+
 Run locally or on our web instance: https://plateau-player.vercel.app/
 
 ## Run
