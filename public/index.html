@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Plateau Player</title>
+<style>
+  :root {
+    --bg: #0b0d10;
+    --bg-card: #131619;
+    --border: #2a2f36;
+    --text: #e8eaed;
+    --muted: #8a929b;
+    --accent: #00E5CC;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  body { padding: 24px; max-width: 1100px; margin: 0 auto; }
+  h1 { font-weight: 400; font-size: 24px; letter-spacing: 0.05em; margin: 0 0 4px; }
+  h2 { font-weight: 400; font-size: 14px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin: 28px 0 10px; }
+  .sub { color: var(--muted); font-size: 12px; margin-bottom: 24px; }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 16px; }
+  .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  button { background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; font: inherit; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+  button:hover { border-color: var(--accent); color: var(--accent); }
+  button.active { background: rgba(0, 229, 204, 0.12); border-color: var(--accent); color: var(--accent); }
+  button.primary { background: var(--accent); color: #001210; border-color: var(--accent); padding: 10px 22px; font-weight: 600; }
+  button.primary:hover { background: #00b9a6; color: #001210; }
+  button.danger { border-color: #c44; color: #f88; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  label { display: flex; flex-direction: column; gap: 6px; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; flex: 1; min-width: 180px; }
+  input[type="range"] { width: 100%; accent-color: var(--accent); }
+  .val { color: var(--text); font-variant-numeric: tabular-nums; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 10px; background: rgba(0, 229, 204, 0.12); color: var(--accent); border: 1px solid rgba(0, 229, 204, 0.3); }
+  .stat { font-size: 11px; color: var(--muted); }
+  .overlay-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .overlay-row button { font-size: 11px; padding: 6px 10px; }
+  .upload-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border); }
+  .upload-row input[type="file"] { display: none; }
+  .upload-row label.file-label { padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 11px; color: var(--text); text-transform: none; letter-spacing: normal; flex: 0 0 auto; flex-direction: row; align-items: center; }
+  .upload-row label.file-label:hover { border-color: var(--accent); color: var(--accent); }
+  .upload-row .filename { font-size: 11px; color: var(--muted); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upload-row button.clear { font-size: 10px; padding: 4px 8px; }
+  details { margin-top: 8px; }
+  summary { cursor: pointer; color: var(--muted); font-size: 11px; }
+  pre { font-size: 11px; color: var(--muted); white-space: pre-wrap; }
+</style>
+</head>
+<body>
+
+<h1>Plateau Player</h1>
+<p class="sub">Stabilize your flow state. Use stereo headphones for binaural effect.</p>
+
+<div class="card">
+  <h2 style="margin-top:0">Profile</h2>
+  <div class="row" id="profileButtons"></div>
+  <p class="stat" id="profileInfo" style="margin-top:14px"></p>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:0">Synth Layers</h2>
+  <div class="grid">
+    <label>Binaural <span class="val" id="binVal">35%</span>
+      <input type="range" id="binVol" min="0" max="1" step="0.01" value="0.35" />
+    </label>
+    <label>Isochronic <span class="val" id="isoVal">35%</span>
+      <input type="range" id="isoVol" min="0" max="1" step="0.01" value="0.35" />
+    </label>
+    <label>Ambient <span class="val" id="ambVal">35%</span>
+      <input type="range" id="ambVol" min="0" max="1" step="0.01" value="0.35" />
+    </label>
+    <label>Master <span class="val" id="masterVal">100%</span>
+      <input type="range" id="masterVol" min="0" max="4" step="0.01" value="1" />
+    </label>
+  </div>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:0">Overlay <span class="pill" id="overlayPill">Nocturne</span></h2>
+  <div class="overlay-row" id="overlayButtons"></div>
+  <label style="margin-top:14px">Overlay volume <span class="val" id="ovVal">80%</span>
+    <input type="range" id="ovVol" min="0" max="1" step="0.01" value="0.80" />
+  </label>
+  <div class="upload-row">
+    <label class="file-label" for="customFile">Choose audio file&hellip;</label>
+    <input type="file" id="customFile" accept="audio/*,.mp3,.wav,.ogg,.m4a,.flac" />
+    <span class="filename" id="customName">no file loaded &mdash; supported: mp3 / wav / ogg / m4a / flac</span>
+    <button class="clear" id="customClear" disabled>Clear</button>
+  </div>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:0">Ambient noise</h2>
+  <div class="row" id="ambientButtons"></div>
+  <p class="stat" id="ambientInfo" style="margin-top:14px"></p>
+</div>
+
+<div class="card">
+  <div class="row">
+    <button id="play" class="primary">Play</button>
+    <button id="stop" class="danger" disabled>Stop</button>
+    <span class="stat" id="status">stopped</span>
+  </div>
+</div>
+
+<details>
+  <summary>Synthesis details (verify against original)</summary>
+<pre>Binaural:    sine carrier left=carrierHz, right=carrierHz+freqHz, gain = vol * 0.151875
+Isochronic:  440Hz sine modulated by gainNode whose .gain = constSrc(0.5) + square(freqHz)*0.5
+             (freqHz floor 0.5), iso bus gain = vol * 0.10935
+Ambient:     pink (Voss-McCartney) or brown (RC-filtered white *3.5), 8s loop, gain = vol * 0.243
+Overlay:     pre-recorded loop fetched from /sounds/, gain = vol (direct)
+Master:      single GainNode after all buses, range 0\u20134\u00d7 (above 1 boosts beyond unity gain)</pre>
+</details>
+
+<script src="/app.js"></script>
+</body>
+</html>
