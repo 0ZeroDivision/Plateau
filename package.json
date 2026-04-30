@@ -1,0 +1,9 @@
+{
+  "name": "plateau-player",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plateau player — focus synth",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
