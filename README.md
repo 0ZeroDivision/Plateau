@@ -2,6 +2,8 @@
 
 Stabilize your flow state with a focus synth backed by cutting edge [cognitive research](#research).
 
+Run locally or on our web instance: https://plateau-player.vercel.app/
+
 ## Run
 
 ```bash
