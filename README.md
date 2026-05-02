@@ -1,6 +1,7 @@
 # Plateau
 
 Stabilize your flow state with a focus enhancing synth based on cutting edge [cognitive research](#research).
+It is more than just a white noise generator, it uses a spectrum of specialized frequencies that help drown out ambient distractions and keep you on task.
 
 Tune the frequencies to your preference and let it run in the backround. You can overaly music in another tab or in the built-in player.
 
