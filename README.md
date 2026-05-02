@@ -1,8 +1,8 @@
 # Plateau
 
-Stabilize your flow state with a focus synth backed by cutting edge [cognitive research](#research).
+Stabilize your flow state with a focus enhancing synth based on cutting edge [cognitive research](#research).
 
-Tune your frequencies in the app and overlay your own study music in another tab or with the upload button for maximum effect. 
+Tune the frequencies to your preference and let it run in the backround. You can overaly music in another tab or in the built-in player.
 
 Run locally or on our web instance: https://plateau-player.vercel.app/
 
